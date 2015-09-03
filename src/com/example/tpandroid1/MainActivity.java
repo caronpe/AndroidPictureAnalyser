@@ -17,8 +17,10 @@ import android.widget.ImageView;
 public class MainActivity extends Activity implements OnClickListener {
 
 	final static String tag = MainActivity.class.getName();
-	final int IMAGE_CAPTURE=1;
+	final int IMAGE_CAPTURE = 1;
+	final int IMAGE_SELECT = 2;
 	Button captureBtn;
+	Button libraryBtn;
 	ImageView imageView;
 	
 	@Override
@@ -27,6 +29,8 @@ public class MainActivity extends Activity implements OnClickListener {
 		setContentView(R.layout.activity_main);
 		captureBtn = (Button) findViewById(R.id.shootBtn);
 		captureBtn.setOnClickListener(this);
+		libraryBtn = (Button) findViewById(R.id.libBtn);
+		libraryBtn.setOnClickListener(this);
 		imageView = (ImageView) findViewById(R.id.imageView2);
 		
 	}
@@ -54,8 +58,17 @@ public class MainActivity extends Activity implements OnClickListener {
 	public void onClick(View arg0) {
 		// TODO Auto-generated method stub
 		//Log.i(tag, "click on take picture button");
-		startCaptureActivity();
+		if(arg0 == captureBtn) startCaptureActivity();
+		if(arg0 == libraryBtn) startLibActivity();
+			
 	}
+		
+	private void startLibActivity() {
+		// TODO Auto-generated method stub
+		Intent libInt = new Intent(Intent.ACTION_PICK);
+		startActivityForResult(libInt, IMAGE_SELECT);
+	}
+
 
 	private void startCaptureActivity() {
 		// TODO Auto-generated method stub
@@ -69,6 +82,11 @@ public class MainActivity extends Activity implements OnClickListener {
 		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, data);
 		if(requestCode == IMAGE_CAPTURE && resultCode == RESULT_OK){
+			Bundle extra = data.getExtras();
+			Bitmap imageBitMap = (Bitmap) extra.get("data");
+			imageView.setImageBitmap(imageBitMap);
+		}
+		if(requestCode == IMAGE_SELECT && resultCode == RESULT_OK){
 			Bundle extra = data.getExtras();
 			Bitmap imageBitMap = (Bitmap) extra.get("data");
 			imageView.setImageBitmap(imageBitMap);
