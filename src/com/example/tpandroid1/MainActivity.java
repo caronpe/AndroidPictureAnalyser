@@ -4,9 +4,10 @@ package com.example.tpandroid1;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.hardware.Camera.PreviewCallback;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -65,7 +66,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		
 	private void startLibActivity() {
 		// TODO Auto-generated method stub
-		Intent libInt = new Intent(Intent.ACTION_PICK);
+		Intent libInt = new Intent(Intent.ACTION_GET_CONTENT).setType("image/*");
 		startActivityForResult(libInt, IMAGE_SELECT);
 	}
 
@@ -87,9 +88,10 @@ public class MainActivity extends Activity implements OnClickListener {
 			imageView.setImageBitmap(imageBitMap);
 		}
 		if(requestCode == IMAGE_SELECT && resultCode == RESULT_OK){
-			Bundle extra = data.getExtras();
-			Bitmap imageBitMap = (Bitmap) extra.get("data");
-			imageView.setImageBitmap(imageBitMap);
+			
+			Uri uri = data.getData();
+			Log.i(tag, uri.toString());
+			imageView.setImageURI(uri);
 		}
 		
 	}
