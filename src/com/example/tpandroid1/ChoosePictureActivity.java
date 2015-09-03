@@ -4,6 +4,7 @@ package com.example.tpandroid1;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Icon;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -15,9 +16,9 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 
-public class MainActivity extends Activity implements OnClickListener {
+public class ChoosePictureActivity extends Activity implements OnClickListener {
 
-	final static String tag = MainActivity.class.getName();
+	final static String tag = ChoosePictureActivity.class.getName();
 	final int IMAGE_CAPTURE = 1;
 	final int IMAGE_SELECT = 2;
 	Button captureBtn;
@@ -33,6 +34,8 @@ public class MainActivity extends Activity implements OnClickListener {
 		libraryBtn = (Button) findViewById(R.id.libBtn);
 		libraryBtn.setOnClickListener(this);
 		imageView = (ImageView) findViewById(R.id.imageView2);
+		//imageView.setImageURI((Uri)"@drawable/ic_launcher");
+	
 		
 	}
 

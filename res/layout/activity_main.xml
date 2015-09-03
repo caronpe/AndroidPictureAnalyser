@@ -6,7 +6,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.tpandroid1.MainActivity"
+    tools:context="com.example.tpandroid1.ChoosePictureActivity"
     android:screenOrientation="portrait" >
 
     <Button
@@ -34,18 +34,13 @@
         android:text="@string/library" />
 
     <ImageView
-        android:id="@+id/imageView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/abc_ab_share_pack_mtrl_alpha" />
-
-    <ImageView
         android:id="@+id/imageView2"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
         android:layout_above="@+id/analyseBtn"
         android:layout_alignLeft="@+id/analyseBtn"
         android:layout_below="@+id/libBtn"
-        android:src="@drawable/abc_ab_share_pack_mtrl_alpha" />
+        android:src="@drawable/imgnotfound"
+        android:visibility="visible" />
 
 </RelativeLayout>
