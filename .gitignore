@@ -10,6 +10,7 @@
 
 # Generated files
 bin/
+gen/
 
 # Gradle files
 .gradle/
@@ -70,3 +71,5 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+project.properties
+gen/com/example/tpandroid1/BuildConfig.java
