@@ -15,14 +15,13 @@ public class ResultActivity extends ListActivity {
 		super.onCreate(savedInstanceState);
 		
 		
-		  String[] values = new String[] { "Device",
-		            "Géo localisation", "Accéléromètre",
-		            "Navigateur internet", "Dialogues", "Album photos",
-		            "Connexion réseau", "Gestion des fichiers",
-		            "Carnet de contacts" };
+		  String[] values = new String[] {"surf" , "sunset", "tiger"};
 
 		  ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.rowlayout, values);
 		  setListAdapter(adapter);
+		  
+		  ListAdaptater adaptateur = new ListAdaptater(this, values);
+	      setListAdapter(adaptateur);
 	}
 
 	@Override
