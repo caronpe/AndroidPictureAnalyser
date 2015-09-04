@@ -1,5 +1,7 @@
-package com.example.tpandroid1;
+package com.telecom.lille.AndroidPictureAnalyser;
 
+
+import com.example.tpandroid1.R;
 
 import android.app.Activity;
 import android.content.Intent;
