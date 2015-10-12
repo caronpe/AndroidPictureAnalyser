@@ -1,6 +1,8 @@
 package com.telecom.lille.AndroidPictureAnalyser;
 
 
+import java.nio.channels.AlreadyConnectedException;
+
 import com.example.tpandroid1.R;
 
 import android.app.Activity;
@@ -27,6 +29,8 @@ public class ChoosePictureActivity extends Activity implements OnClickListener {
 	Button libraryBtn;
 	Button analyseBtn;
 	ImageView imageView;
+	boolean imageAlreadyChoose;
+	Uri uriChooseImage;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +43,7 @@ public class ChoosePictureActivity extends Activity implements OnClickListener {
 		analyseBtn = (Button) findViewById(R.id.analyseBtn);
 		analyseBtn.setOnClickListener(this);
 		imageView = (ImageView) findViewById(R.id.imageView2);
+		imageAlreadyChoose = false;
 		//imageView.setImageURI((Uri)"@drawable/ic_launcher");
 	
 		
@@ -75,7 +80,11 @@ public class ChoosePictureActivity extends Activity implements OnClickListener {
 		
 	private void startAnalyseActivity() {
 		// TODO Auto-generated method stub
+		if (uriChooseImage == null){
+			return;
+		}
 		Intent analyse = new Intent(this, ResultActivity.class);
+		analyse.putExtra("chooseImage", uriChooseImage);
 		startActivity(analyse);
 	}
 
@@ -97,16 +106,19 @@ public class ChoosePictureActivity extends Activity implements OnClickListener {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, data);
+		imageAlreadyChoose = true;
 		if(requestCode == IMAGE_CAPTURE && resultCode == RESULT_OK){
 			Bundle extra = data.getExtras();
 			Bitmap imageBitMap = (Bitmap) extra.get("data");
 			imageView.setImageBitmap(imageBitMap);
+			uriChooseImage = data.getData();
+			
 		}
 		if(requestCode == IMAGE_SELECT && resultCode == RESULT_OK){
 			
-			Uri uri = data.getData();
-			Log.i(tag, uri.toString());
-			imageView.setImageURI(uri);
+			uriChooseImage = data.getData();
+			Log.i(tag, uriChooseImage.toString());
+			imageView.setImageURI(uriChooseImage);
 		}
 		
 	}
