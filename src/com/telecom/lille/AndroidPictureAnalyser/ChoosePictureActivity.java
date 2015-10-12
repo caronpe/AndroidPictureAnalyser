@@ -25,6 +25,7 @@ public class ChoosePictureActivity extends Activity implements OnClickListener {
 	final int IMAGE_SELECT = 2;
 	Button captureBtn;
 	Button libraryBtn;
+	Button analyseBtn;
 	ImageView imageView;
 	
 	@Override
@@ -35,6 +36,8 @@ public class ChoosePictureActivity extends Activity implements OnClickListener {
 		captureBtn.setOnClickListener(this);
 		libraryBtn = (Button) findViewById(R.id.libBtn);
 		libraryBtn.setOnClickListener(this);
+		analyseBtn = (Button) findViewById(R.id.analyseBtn);
+		analyseBtn.setOnClickListener(this);
 		imageView = (ImageView) findViewById(R.id.imageView2);
 		//imageView.setImageURI((Uri)"@drawable/ic_launcher");
 	
@@ -66,9 +69,15 @@ public class ChoosePictureActivity extends Activity implements OnClickListener {
 		//Log.i(tag, "click on take picture button");
 		if(arg0 == captureBtn) startCaptureActivity();
 		if(arg0 == libraryBtn) startLibActivity();
+		if(arg0 == analyseBtn) startAnalyseActivity();
 			
 	}
 		
+	private void startAnalyseActivity() {
+		// TODO Auto-generated method stub
+		
+	}
+
 	private void startLibActivity() {
 		// TODO Auto-generated method stub
 		Intent libInt = new Intent(Intent.ACTION_GET_CONTENT).setType("image/*");
