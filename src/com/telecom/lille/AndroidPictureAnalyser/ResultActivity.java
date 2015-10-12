@@ -1,12 +1,15 @@
 package com.telecom.lille.AndroidPictureAnalyser;
 
-import com.example.tpandroid1.R;
-
 import android.app.ListActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.Toast;
+
+import com.example.tpandroid1.R;
 
 public class ResultActivity extends ListActivity {
 
@@ -15,14 +18,13 @@ public class ResultActivity extends ListActivity {
 		super.onCreate(savedInstanceState);
 		
 		
-		  String[] values = new String[] { "Device",
-		            "Géo localisation", "Accéléromètre",
-		            "Navigateur internet", "Dialogues", "Album photos",
-		            "Connexion réseau", "Gestion des fichiers",
-		            "Carnet de contacts" };
+		  String[] values = new String[] {"surf" , "sunset", "tiger"};
 
 		  ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.rowlayout, values);
 		  setListAdapter(adapter);
+		  
+		  ListAdaptater adaptateur = new ListAdaptater(this, values);
+	      setListAdapter(adaptateur);
 	}
 
 	@Override
@@ -31,6 +33,11 @@ public class ResultActivity extends ListActivity {
 		getMenuInflater().inflate(R.menu.result, menu);
 		return true;
 	}
+	
+	 @Override
+	 protected void onListItemClick(ListView l, View v, int position, long id) {
+	        Toast.makeText(this, "Position : " + position, Toast.LENGTH_LONG).show();
+	 }
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
