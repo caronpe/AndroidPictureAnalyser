@@ -19,12 +19,8 @@ public class ResultActivity extends ListActivity {
 		
 		
 		  String[] values = new String[] {"surf" , "sunset", "tiger"};
-
-		  ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.rowlayout, values);
-		  setListAdapter(adapter);
-		  
-		  ListAdaptater adaptateur = new ListAdaptater(this, values);
-	      setListAdapter(adaptateur);
+		  ListAdaptater listAdaptater = new ListAdaptater(this, values);
+		  setListAdapter(listAdaptater);
 	}
 
 	@Override
@@ -50,4 +46,6 @@ public class ResultActivity extends ListActivity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
+	
+	
 }
