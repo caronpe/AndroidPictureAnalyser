@@ -75,7 +75,8 @@ public class ChoosePictureActivity extends Activity implements OnClickListener {
 		
 	private void startAnalyseActivity() {
 		// TODO Auto-generated method stub
-		
+		Intent analyse = new Intent(this, ResultActivity.class);
+		startActivity(analyse);
 	}
 
 	private void startLibActivity() {
