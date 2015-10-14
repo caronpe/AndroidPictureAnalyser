@@ -8,5 +8,6 @@
     <string name="Tpicture">take picture</string>
     <string name="library">library</string>
     <string name="title_activity_result">ResultActivity</string>
+    <string name="PictureToAnalyse"></string>
 
 </resources>

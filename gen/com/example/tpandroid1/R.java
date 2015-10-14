@@ -2167,6 +2167,7 @@ containing a value of this type.
         public static final int result=0x7f0c0001;
     }
     public static final class string {
+        public static final int PictureToAnalyse=0x7f0a0019;
         public static final int Tpicture=0x7f0a0016;
         /**  Content description for the action bar "home" affordance. [CHAR LIMIT=NONE] 
          */
