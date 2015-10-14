@@ -1979,12 +1979,23 @@ containing a value of this type.
         public static final int abc_textfield_search_activated_mtrl_alpha=0x7f02003b;
         public static final int abc_textfield_search_default_mtrl_alpha=0x7f02003c;
         public static final int abc_textfield_search_material=0x7f02003d;
-        public static final int ic_launcher=0x7f02003e;
-        public static final int imgnotfound=0x7f02003f;
-        public static final int notification_template_icon_bg=0x7f020043;
-        public static final int sunset=0x7f020040;
-        public static final int surf=0x7f020041;
-        public static final int tiger=0x7f020042;
+        public static final int auchan=0x7f02003e;
+        public static final int carrefour=0x7f02003f;
+        public static final int decathlon=0x7f020040;
+        public static final int hp=0x7f020041;
+        public static final int ic_launcher=0x7f020042;
+        public static final int imgnotfound=0x7f020043;
+        public static final int kfc=0x7f020044;
+        public static final int mcdo=0x7f020045;
+        public static final int nike=0x7f020046;
+        public static final int notification_template_icon_bg=0x7f02004e;
+        public static final int quick=0x7f020047;
+        public static final int starbucks=0x7f020048;
+        public static final int sunset=0x7f020049;
+        public static final int surf=0x7f02004a;
+        public static final int telecom=0x7f02004b;
+        public static final int tf1=0x7f02004c;
+        public static final int tiger=0x7f02004d;
     }
     public static final class id {
         public static final int action0=0x7f090052;
