@@ -1,15 +1,22 @@
 package com.telecom.lille.AndroidPictureAnalyser;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
+import android.graphics.Bitmap;
 import android.net.Uri;
+import android.provider.MediaStore;
 
 public class Analyser {
 	
 	ListAdaptater listAdaptater;
-	Uri image;
+	Bitmap mainImage, comparable;
+	ResultActivity resultActivity;
 	
-	public Analyser(ListAdaptater listAdaptater, Uri image){
+	public Analyser(ListAdaptater listAdaptater, ResultActivity resultActivity, Uri imageUri) throws FileNotFoundException, IOException{
 		this.listAdaptater = listAdaptater;
-		this.image = image;
+		this.resultActivity = resultActivity;
+		mainImage = MediaStore.Images.Media.getBitmap(resultActivity.getContentResolver(), imageUri);
 	}
 	
 	
