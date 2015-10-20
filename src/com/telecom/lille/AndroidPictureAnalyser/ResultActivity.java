@@ -1,11 +1,16 @@
 package com.telecom.lille.AndroidPictureAnalyser;
 
+import org.opencv.android.BaseLoaderCallback;
+import org.opencv.android.LoaderCallbackInterface;
+import org.opencv.android.OpenCVLoader;
+
 import android.app.ListActivity;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -13,6 +18,38 @@ import com.example.tpandroid1.R;
 
 public class ResultActivity extends ListActivity {
 
+		final static String tag = ResultActivity.class.getName();
+	
+		Analyser analyser;
+		Uri mainImage;
+		private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
+	        @Override
+	        public void onManagerConnected(int status) {
+	            switch (status) {
+	                case LoaderCallbackInterface.SUCCESS:
+	                {
+	                    Log.i(tag, "OpenCV loaded successfully");
+	                    System.loadLibrary("native_activity");
+	                } break;
+	                default:
+	                {
+	                    super.onManagerConnected(status);
+	                } break;
+	            }
+	        }
+	    };
+	    
+	    public void CvNativeActivity() {
+	        Log.i(tag, "Instantiated new " + this.getClass());
+	    }
+
+	    @Override
+	    public void onResume()
+	    {
+	        super.onResume();
+	        OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_2_4_3, this, mLoaderCallback);
+	    }
+		
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -21,6 +58,8 @@ public class ResultActivity extends ListActivity {
 		  String[] values = new String[] {"surf" , "sunset", "tiger"};
 		  ListAdaptater listAdaptater = new ListAdaptater(this, values);
 		  setListAdapter(listAdaptater);
+		  mainImage = (Uri) getIntent().getExtras().get("chooseImage");
+		  analyser = new Analyser(listAdaptater, this, mainImage);
 	}
 
 	@Override
