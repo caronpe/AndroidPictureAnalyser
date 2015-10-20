@@ -21,18 +21,29 @@ import android.util.Log;
 
 public class Analyser {
 
-	final static String tag = ChoosePictureActivity.class.getName();
+	final static String tag = Analyser.class.getName();
 	ListAdaptater listAdaptater;
 	Bitmap mainImage, compareImage;
 	Mat mainImageMat, compareImageMat;
 	ResultActivity resultActivity;
+	
+	
 
-	public Analyser(ListAdaptater listAdaptater, ResultActivity resultActivity, Uri imageUri) throws FileNotFoundException, IOException{
+	public Analyser(ListAdaptater listAdaptater, ResultActivity resultActivity, Uri imageUri){
 		this.listAdaptater = listAdaptater;
 		this.resultActivity = resultActivity;
 		//chargement des images à partir de l'URI de l'image
-		mainImage = MediaStore.Images.Media.getBitmap(resultActivity.getContentResolver(), imageUri);
-		compareImage = MediaStore.Images.Media.getBitmap(resultActivity.getContentResolver(), imageUri);
+		try {
+			mainImage = MediaStore.Images.Media.getBitmap(resultActivity.getContentResolver(), imageUri);
+			compareImage = MediaStore.Images.Media.getBitmap(resultActivity.getContentResolver(), imageUri);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		this.mainImageMat = new Mat(); 
 		this.compareImageMat = new Mat();
 		Utils.bitmapToMat(mainImage, mainImageMat);
@@ -130,6 +141,5 @@ public class Analyser {
 			Log.i(tag, "match not found");
 		}
 	}
-
-
+	
 }
