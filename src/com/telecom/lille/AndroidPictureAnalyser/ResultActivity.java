@@ -56,7 +56,7 @@ public class ResultActivity extends ListActivity {
 		  setListAdapter(listAdaptater);
 		  mainImage = (Uri) getIntent().getExtras().get("chooseImage");
 		  analyser = new Analyser(listAdaptater, this, mainImage);
-		  analyser.compare();
+		  analyser.compare(mainImage);
 	}
 
 	@Override

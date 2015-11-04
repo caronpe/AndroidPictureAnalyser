@@ -10,6 +10,7 @@ import org.opencv.android.Utils;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfDMatch;
 import org.opencv.core.MatOfKeyPoint;
+import org.opencv.core.Size;
 import org.opencv.features2d.DMatch;
 import org.opencv.features2d.DescriptorExtractor;
 import org.opencv.features2d.DescriptorMatcher;
@@ -78,13 +79,24 @@ public class Analyser {
 		}
 		
 		this.mainImageMat = new Mat(); 
-		this.compareImageMat = new Mat();
-		Utils.bitmapToMat(mainImage, mainImageMat);
-		Utils.bitmapToMat(compareImage, compareImageMat);
-		Log.i("ANALYSER", "Image chargé!!!!!!!!!!!!!!!!!");
+		Utils.bitmapToMat(mainImage, mainImageMat);	
+		Log.i("ANALYSER", "Image Principal chargée!!!!!!!!!!!!!!!!!");
 	}
 
-	public void compare(){
+	public Size compare(Uri compareImg){
+		try {
+			compareImage = MediaStore.Images.Media.getBitmap(resultActivity.getContentResolver(), compareImg);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		this.compareImageMat = new Mat();
+		Utils.bitmapToMat(compareImage, compareImageMat);
+		Log.i("ANALYSER", "Image à comparer chargée!!!!!!!!!!!!!!!!!");
+		
 		MatOfKeyPoint keyPointMain = new MatOfKeyPoint();
 		MatOfKeyPoint keyPointComp = new MatOfKeyPoint();
 		Mat DescriptorMain = new Mat();
@@ -140,7 +152,7 @@ public class Analyser {
 
 		if (min_dist > 50) {
 			Log.i(tag, "No match found, min_dist under minimum value");
-			return;
+			return null;
 		}
 
 		double threshold = 3 * min_dist;
@@ -174,6 +186,8 @@ public class Analyser {
 		} else {
 			Log.i(tag, "match not found");
 		}
+		
+		return matchesFiltered.size();
 	}
 	
 }
