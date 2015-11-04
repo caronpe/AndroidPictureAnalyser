@@ -1,9 +1,5 @@
 package com.telecom.lille.AndroidPictureAnalyser;
 
-import org.opencv.android.BaseLoaderCallback;
-import org.opencv.android.LoaderCallbackInterface;
-import org.opencv.android.OpenCVLoader;
-
 import android.app.ListActivity;
 import android.net.Uri;
 import android.os.Bundle;
@@ -22,7 +18,8 @@ public class ResultActivity extends ListActivity {
 	
 		Analyser analyser;
 		Uri mainImage;
-		private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
+	
+		/*private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
 	        @Override
 	        public void onManagerConnected(int status) {
 	            switch (status) {
@@ -38,28 +35,28 @@ public class ResultActivity extends ListActivity {
 	            }
 	        }
 	    };
-	    
+*/	    
 	    public void CvNativeActivity() {
 	        Log.i(tag, "Instantiated new " + this.getClass());
 	    }
 
-	    @Override
+	/*    @Override
 	    public void onResume()
 	    {
 	        super.onResume();
 	        OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_2_4_3, this, mLoaderCallback);
-	    }
+	}   */  
 		
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
-		
-		  String[] values = new String[] {"surf" , "sunset", "tiger"};
+
+		String[] values = new String[] {"surf" , "sunset", "tiger"};
 		  ListAdaptater listAdaptater = new ListAdaptater(this, values);
 		  setListAdapter(listAdaptater);
 		  mainImage = (Uri) getIntent().getExtras().get("chooseImage");
 		  analyser = new Analyser(listAdaptater, this, mainImage);
+		  analyser.compare();
 	}
 
 	@Override

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.opencv.android.OpenCVLoader;
 import org.opencv.android.Utils;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfDMatch;
@@ -21,12 +22,17 @@ import android.util.Log;
 
 public class Analyser {
 
-	final static String tag = Analyser.class.getName();
+	final static String tag = "COMPARAISON";
 	ListAdaptater listAdaptater;
 	Bitmap mainImage, compareImage;
 	Mat mainImageMat, compareImageMat;
 	ResultActivity resultActivity;
 	
+	static {
+	    if (!OpenCVLoader.initDebug()) {
+	        // Handle initialization error
+	    }
+	}
 	
 
 	public Analyser(ListAdaptater listAdaptater, ResultActivity resultActivity, Uri imageUri){
@@ -48,6 +54,7 @@ public class Analyser {
 		this.compareImageMat = new Mat();
 		Utils.bitmapToMat(mainImage, mainImageMat);
 		Utils.bitmapToMat(compareImage, compareImageMat);
+		Log.i("ANALYSER", "Image chargé!!!!!!!!!!!!!!!!!");
 	}
 
 	public void compare(){
@@ -133,7 +140,7 @@ public class Analyser {
 
 		matchesFiltered.fromList(bestMatches);
 
-		Log.i(tag, "matchesFiltered.size() : " + matchesFiltered.size());
+		Log.i("ANALYSER", "matchesFiltered.size() : " + matchesFiltered.size());
 
 		if (matchesFiltered.rows() >= 1) {
 			Log.i(tag, "match found");
