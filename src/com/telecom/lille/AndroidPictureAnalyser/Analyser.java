@@ -15,9 +15,10 @@ import org.opencv.features2d.DescriptorExtractor;
 import org.opencv.features2d.DescriptorMatcher;
 import org.opencv.features2d.FeatureDetector;
 
+import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.provider.MediaStore;
 import android.util.Log;
 
 public class Analyser {
@@ -34,14 +35,40 @@ public class Analyser {
 	    }
 	}
 	
-
 	public Analyser(ListAdaptater listAdaptater, ResultActivity resultActivity, Uri imageUri){
 		this.listAdaptater = listAdaptater;
 		this.resultActivity = resultActivity;
 		//chargement des images à partir de l'URI de l'image
 		try {
-			mainImage = MediaStore.Images.Media.getBitmap(resultActivity.getContentResolver(), imageUri);
-			compareImage = MediaStore.Images.Media.getBitmap(resultActivity.getContentResolver(), imageUri);
+			BitmapFactory.Options options = new BitmapFactory.Options();
+			options.inJustDecodeBounds = true;
+
+			AssetFileDescriptor fileDescriptor = null;
+			fileDescriptor = resultActivity.getContentResolver().openAssetFileDescriptor(imageUri, "r");
+
+			BitmapFactory.decodeFileDescriptor(fileDescriptor.getFileDescriptor(), null, options);
+			int imageHeight = options.outHeight;
+			int imageWidth = options.outWidth;
+			//String imageType = options.outMimeType;
+			
+	        // The new size we want to scale to
+	        final int REQUIRED_SIZE=70;
+
+	        // Find the correct scale value. It should be the power of 2.
+	        int scale = 1;
+	        while(imageWidth / scale / 2 >= REQUIRED_SIZE && imageHeight / scale / 2 >= REQUIRED_SIZE) {
+	            scale *= 2;
+	        }
+
+	        // Decode with inSampleSize
+	        BitmapFactory.Options options2 = new BitmapFactory.Options();
+	        options2.inSampleSize = scale;
+			
+			mainImage = BitmapFactory.decodeFileDescriptor(fileDescriptor.getFileDescriptor(), null, options2);
+			compareImage = BitmapFactory.decodeFileDescriptor(fileDescriptor.getFileDescriptor(), null, options2);
+			//mainImage = MediaStore.Images.Media.getBitmap(resultActivity.getContentResolver(), imageUri);
+			//compareImage = MediaStore.Images.Media.getBitmap(resultActivity.getContentResolver(), imageUri);
+		
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
