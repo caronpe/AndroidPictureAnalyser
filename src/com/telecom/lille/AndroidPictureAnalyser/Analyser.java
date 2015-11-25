@@ -20,6 +20,7 @@ import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.util.Log;
 
 public class Analyser {
@@ -39,60 +40,60 @@ public class Analyser {
 	public Analyser(ListAdaptater listAdaptater, ResultActivity resultActivity, Uri imageUri){
 		this.listAdaptater = listAdaptater;
 		this.resultActivity = resultActivity;
-		//chargement des images à partir de l'URI de l'image
-		try {
-			BitmapFactory.Options options = new BitmapFactory.Options();
-			options.inJustDecodeBounds = true;
-
-			AssetFileDescriptor fileDescriptor = null;
-			fileDescriptor = resultActivity.getContentResolver().openAssetFileDescriptor(imageUri, "r");
-
-			BitmapFactory.decodeFileDescriptor(fileDescriptor.getFileDescriptor(), null, options);
-			int imageHeight = options.outHeight;
-			int imageWidth = options.outWidth;
-			//String imageType = options.outMimeType;
-			
-	        // The new size we want to scale to
-	        final int REQUIRED_SIZE=70;
-
-	        // Find the correct scale value. It should be the power of 2.
-	        int scale = 1;
-	        while(imageWidth / scale / 2 >= REQUIRED_SIZE && imageHeight / scale / 2 >= REQUIRED_SIZE) {
-	            scale *= 2;
-	        }
-
-	        // Decode with inSampleSize
-	        BitmapFactory.Options options2 = new BitmapFactory.Options();
-	        options2.inSampleSize = scale;
-			
-			mainImage = BitmapFactory.decodeFileDescriptor(fileDescriptor.getFileDescriptor(), null, options2);
-			compareImage = BitmapFactory.decodeFileDescriptor(fileDescriptor.getFileDescriptor(), null, options2);
-			//mainImage = MediaStore.Images.Media.getBitmap(resultActivity.getContentResolver(), imageUri);
-			//compareImage = MediaStore.Images.Media.getBitmap(resultActivity.getContentResolver(), imageUri);
 		
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		mainImage = decodeSampledBitmapFromResource(imageUri, 70, 70);
+		compareImage = decodeSampledBitmapFromResource(imageUri, 70, 70);
 		
 		this.mainImageMat = new Mat(); 
 		Utils.bitmapToMat(mainImage, mainImageMat);	
 		Log.i("ANALYSER", "Image Principal chargée!!!!!!!!!!!!!!!!!");
 	}
 
-	public Size compare(Uri compareImg){
+	public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
+	    // Raw height and width of image
+	    final int height = options.outHeight;
+	    final int width = options.outWidth;
+	    int inSampleSize = 1;
+	
+	    if (height > reqHeight || width > reqWidth) {
+	
+	        final int halfHeight = height / 2;
+	        final int halfWidth = width / 2;
+	
+	        // Calculate the largest inSampleSize value that is a power of 2 and keeps both
+	        // height and width larger than the requested height and width.
+	        while ((halfHeight / inSampleSize) > reqHeight && (halfWidth / inSampleSize) > reqWidth) {
+	            inSampleSize *= 2;
+	        }
+	    }
+	    return inSampleSize;
+	}
+	
+	public Bitmap decodeSampledBitmapFromResource(Uri img, int reqWidth, int reqHeight) {
+
+		BitmapFactory.Options options = new BitmapFactory.Options();
+		options.inJustDecodeBounds = true;
+
+		AssetFileDescriptor fileDescriptor = null;
 		try {
-			compareImage = MediaStore.Images.Media.getBitmap(resultActivity.getContentResolver(), compareImg);
+			fileDescriptor = resultActivity.getContentResolver().openAssetFileDescriptor(img, "r");
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
+
+		BitmapFactory.decodeFileDescriptor(fileDescriptor.getFileDescriptor(), null, options);
+
+        // Decode with inSampleSize
+        BitmapFactory.Options options2 = new BitmapFactory.Options();
+        options2.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight );
+
+		return BitmapFactory.decodeFileDescriptor(fileDescriptor.getFileDescriptor(), null, options2);
+
+	}
+	
+	public Size compare(Uri compareImg) throws FileNotFoundException, IOException{
+		compareImage = decodeSampledBitmapFromResource(compareImg, 70, 70);
 		this.compareImageMat = new Mat();
 		Utils.bitmapToMat(compareImage, compareImageMat);
 		Log.i("ANALYSER", "Image à comparer chargée!!!!!!!!!!!!!!!!!");

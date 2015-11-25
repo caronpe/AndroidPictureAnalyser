@@ -10,6 +10,9 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 import com.example.tpandroid1.R;
 
 public class ResultActivity extends ListActivity {
@@ -52,11 +55,19 @@ public class ResultActivity extends ListActivity {
 		super.onCreate(savedInstanceState);
 
 		String[] values = new String[] {"surf" , "sunset", "tiger"};
-		  ListAdaptater listAdaptater = new ListAdaptater(this, values);
-		  setListAdapter(listAdaptater);
-		  mainImage = (Uri) getIntent().getExtras().get("chooseImage");
-		  analyser = new Analyser(listAdaptater, this, mainImage);
-		  analyser.compare(mainImage);
+		ListAdaptater listAdaptater = new ListAdaptater(this, values);
+		setListAdapter(listAdaptater);
+		mainImage = (Uri) getIntent().getExtras().get("chooseImage");
+		analyser = new Analyser(listAdaptater, this, mainImage);
+		try {
+			analyser.compare(mainImage);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
