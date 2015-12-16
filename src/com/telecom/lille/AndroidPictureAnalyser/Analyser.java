@@ -69,6 +69,13 @@ public class Analyser {
 	    return inSampleSize;
 	}
 	
+	/**
+	 * une conversion de l'image en bitmap
+	 * @param img uri de l'image
+	 * @param reqWidth
+	 * @param reqHeight
+	 * @return a BitMap description of the image
+	 */
 	public Bitmap decodeSampledBitmapFromResource(Uri img, int reqWidth, int reqHeight) {
 
 		BitmapFactory.Options options = new BitmapFactory.Options();
@@ -123,15 +130,15 @@ public class Analyser {
 
 		Log.i(tag, "matches.size() : " + matches.size());
 		Log.i(tag, "matches : " + matches);
-
-		MatOfDMatch matchesFiltered = new MatOfDMatch();
-
+		
+		//get matching point list
 		List<DMatch> matchesList = matches.toList();
 		List<DMatch> bestMatches = new ArrayList<DMatch>();
 
 		Double max_dist = 0.0;
 		Double min_dist = 100.0;
 
+		//determinated min and max dist in this compare
 		for (int i = 0; i < matchesList.size(); i++) {
 			Double dist = (double) matchesList.get(i).distance;
 
@@ -156,6 +163,7 @@ public class Analyser {
 			return null;
 		}
 
+		//choose an appropriate threshold
 		double threshold = 3 * min_dist;
 		double threshold2 = 2 * min_dist;
 
@@ -169,6 +177,7 @@ public class Analyser {
 
 		Log.i(tag, "Threshold : " + threshold);
 
+		//get match with dist under threshold
 		for (int i = 0; i < matchesList.size(); i++) {
 			Double dist = (double) matchesList.get(i).distance;
 
@@ -178,6 +187,7 @@ public class Analyser {
 			}
 		}
 
+		MatOfDMatch matchesFiltered = new MatOfDMatch();
 		matchesFiltered.fromList(bestMatches);
 
 		Log.i("ANALYSER", "matchesFiltered.size() : " + matchesFiltered.size());
