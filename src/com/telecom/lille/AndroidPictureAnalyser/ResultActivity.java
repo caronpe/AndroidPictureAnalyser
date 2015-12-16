@@ -56,18 +56,24 @@ public class ResultActivity extends ListActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		Picture brands[] = new Picture[5];
-		brands[0] = new Picture(R.drawable.surf, "surf", "www.surf.com", this);
+		//create list with all brand know by the system
+		Picture brands[] = new Picture[10];
+		brands[0] = new Picture(R.drawable.kfc, "kfc", "www.kfc.com", this);
 		brands[1] = new Picture(R.drawable.auchan, "auchan", "www.auchan.com", this);
 		brands[2] = new Picture(R.drawable.carrefour, "carrefour", "www.carrefour.com", this);
 		brands[3] = new Picture(R.drawable.decathlon, "decathlon", "www.decathon.com", this);
 		brands[4] = new Picture(R.drawable.hp, "hp", "www.hp.com", this);
+		brands[5] = new Picture(R.drawable.mcdo, "mcdo", "www.mcdo.com", this);
+		brands[6] = new Picture(R.drawable.nike, "nike", "www.nike.com", this);
+		brands[7] = new Picture(R.drawable.quick, "quick", "www.quick.com", this);
+		brands[8] = new Picture(R.drawable.starbucks, "starbucks", "www.starbucks.com", this);
+		brands[9] = new Picture(R.drawable.tf1, "tf1", "www.tf1.com", this);
 		
 		ListAdaptater listAdaptater = new ListAdaptater(this, brands);
 		setListAdapter(listAdaptater);
 		mainImage = (Uri) getIntent().getExtras().get("chooseImage");
 		analyser = new Analyser(listAdaptater, this, mainImage);
-		analyser.compare();
+		analyser.compare(brands, this);
 	}
 
 	@Override
