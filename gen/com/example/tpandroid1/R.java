@@ -1988,14 +1988,11 @@ containing a value of this type.
         public static final int kfc=0x7f020044;
         public static final int mcdo=0x7f020045;
         public static final int nike=0x7f020046;
-        public static final int notification_template_icon_bg=0x7f02004e;
+        public static final int notification_template_icon_bg=0x7f02004b;
         public static final int quick=0x7f020047;
         public static final int starbucks=0x7f020048;
-        public static final int sunset=0x7f020049;
-        public static final int surf=0x7f02004a;
-        public static final int telecom=0x7f02004b;
-        public static final int tf1=0x7f02004c;
-        public static final int tiger=0x7f02004d;
+        public static final int telecom=0x7f020049;
+        public static final int tf1=0x7f02004a;
     }
     public static final class id {
         public static final int action0=0x7f090052;
