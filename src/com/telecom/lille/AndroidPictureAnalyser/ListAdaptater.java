@@ -28,6 +28,11 @@ public class ListAdaptater extends ArrayAdapter<Picture> {
         ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
 
         brand.setText(getItem(position).getBrand());
+        if(getItem(position).match()){
+        	brand.setText(getItem(position).getBrand() + "  " + getItem(position).getMatchingSize() );
+        }else{
+        	brand.setText(getItem(position).getBrand());
+        }
         website.setText(getItem(position).getWebsite());
 
         if(convertView == null)
