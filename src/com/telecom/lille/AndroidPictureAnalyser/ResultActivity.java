@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URI;
+import java.util.ArrayList;
 
 import com.example.tpandroid1.R;
 
@@ -54,8 +56,14 @@ public class ResultActivity extends ListActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		String[] values = new String[] {"surf" , "sunset", "tiger"};
-		ListAdaptater listAdaptater = new ListAdaptater(this, values);
+		Picture brands[] = new Picture[5];
+		brands[0] = new Picture(R.drawable.surf, "surf", "www.surf.com", this);
+		brands[1] = new Picture(R.drawable.auchan, "auchan", "www.auchan.com", this);
+		brands[2] = new Picture(R.drawable.carrefour, "carrefour", "www.carrefour.com", this);
+		brands[3] = new Picture(R.drawable.decathlon, "decathlon", "www.decathon.com", this);
+		brands[4] = new Picture(R.drawable.hp, "hp", "www.hp.com", this);
+		
+		ListAdaptater listAdaptater = new ListAdaptater(this, brands);
 		setListAdapter(listAdaptater);
 		mainImage = (Uri) getIntent().getExtras().get("chooseImage");
 		analyser = new Analyser(listAdaptater, this, mainImage);

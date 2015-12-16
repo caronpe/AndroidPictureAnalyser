@@ -10,15 +10,9 @@ import android.widget.TextView;
 
 import com.example.tpandroid1.R;
 
-public class ListAdaptater extends ArrayAdapter<String> {
+public class ListAdaptater extends ArrayAdapter<Picture> {
 
-    private Integer[] tab_images_pour_la_liste = {
-      R.drawable.tiger, 
-      R.drawable.sunset,
-      R.drawable.surf,
-     };
-    
-   public ListAdaptater (Context context, String[] values) {
+   public ListAdaptater (Context context, Picture[] values) {
         super(context, R.layout.rowlayout, values);
     }
 
@@ -29,15 +23,27 @@ public class ListAdaptater extends ArrayAdapter<String> {
 
         View rowView = inflater.inflate(R.layout.rowlayout, parent, false);
 
-        TextView textView = (TextView) rowView.findViewById(R.id.label);
+        TextView brand = (TextView) rowView.findViewById(R.id.label);
+        TextView website = (TextView) rowView.findViewById(R.id.website);
         ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
 
-        textView.setText(getItem(position));
+        brand.setText(getItem(position).getBrand());
+        website.setText(getItem(position).getWebsite());
 
-        if(convertView == null )
-          imageView.setImageResource(tab_images_pour_la_liste[position]);
+        if(convertView == null)
+          imageView.setImageResource(getItem(position).getBrandId());
         else
           rowView = (View)convertView;
+        
+       /* viewHolder.button.setOnClickListener
+        (new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+          int position = (int) viewHolder.button.getTag();
+          Log.d(TAG, "Position is: " +position);
+        }
+      });
+      */
 
         return rowView;
     }
