@@ -16,6 +16,7 @@ import org.opencv.features2d.DescriptorExtractor;
 import org.opencv.features2d.DescriptorMatcher;
 import org.opencv.features2d.FeatureDetector;
 
+import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -41,9 +42,8 @@ public class Analyser {
 		this.listAdaptater = listAdaptater;
 		this.resultActivity = resultActivity;
 		
-		mainImage = decodeSampledBitmapFromResource(imageUri, 70, 70);
-		compareImage = decodeSampledBitmapFromResource(imageUri, 70, 70);
-		
+		//load the choosing image
+		mainImage = decodeSampledBitmapFromResource(imageUri, 70, 70);		
 		this.mainImageMat = new Mat(); 
 		Utils.bitmapToMat(mainImage, mainImageMat);	
 		Log.i("ANALYSER", "Image Principal chargée!!!!!!!!!!!!!!!!!");
@@ -99,11 +99,27 @@ public class Analyser {
 
 	}
 	
-	public Size compare(Uri compareImg) throws FileNotFoundException, IOException{
-		compareImage = decodeSampledBitmapFromResource(compareImg, 70, 70);
+	public void compare(Picture[] brand, Context context){
+		for(int i = 0 ; i < brand.length ; i++){
+			try {
+				brand[i].setMatchSize(compare(brand[i].getUri(), context));
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public Size compare(Uri compareImg, Context context) throws FileNotFoundException, IOException{
+		//compareImage = decodeSampledBitmapFromResource(compareImg, 70, 70);
+		compareImage = MediaStore.Images.Media.getBitmap(context.getContentResolver(), compareImg);
+		Log.i("ANALYSER", "Image à comparer chargée!!!!!!!!!!!!!!!!! " + compareImage);
 		this.compareImageMat = new Mat();
 		Utils.bitmapToMat(compareImage, compareImageMat);
-		Log.i("ANALYSER", "Image à comparer chargée!!!!!!!!!!!!!!!!!");
+		//Log.i("ANALYSER", "Image à comparer chargée!!!!!!!!!!!!!!!!!");
 		
 		MatOfKeyPoint keyPointMain = new MatOfKeyPoint();
 		MatOfKeyPoint keyPointComp = new MatOfKeyPoint();
@@ -198,6 +214,9 @@ public class Analyser {
 			Log.i(tag, "match not found");
 		}
 		
+		if(matchesFiltered.size() == null){
+			return new Size(0 , 0);
+		}
 		return matchesFiltered.size();
 	}
 	
