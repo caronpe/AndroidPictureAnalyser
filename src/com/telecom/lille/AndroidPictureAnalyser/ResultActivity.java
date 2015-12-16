@@ -59,15 +59,7 @@ public class ResultActivity extends ListActivity {
 		setListAdapter(listAdaptater);
 		mainImage = (Uri) getIntent().getExtras().get("chooseImage");
 		analyser = new Analyser(listAdaptater, this, mainImage);
-		try {
-			analyser.compare(mainImage);
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		analyser.compare();
 	}
 
 	@Override
