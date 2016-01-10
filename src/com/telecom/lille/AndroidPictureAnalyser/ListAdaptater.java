@@ -1,5 +1,8 @@
 package com.telecom.lille.AndroidPictureAnalyser;
 
+
+import com.example.tpandroid1.R;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,7 +11,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.tpandroid1.R;
 
 public class ListAdaptater extends ArrayAdapter<Picture> {
 

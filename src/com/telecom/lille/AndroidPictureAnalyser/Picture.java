@@ -5,8 +5,6 @@ import java.net.URISyntaxException;
 
 import org.opencv.core.Size;
 
-import com.example.tpandroid1.R;
-
 import android.content.ContentResolver;
 import android.content.Context;
 import android.net.Uri;

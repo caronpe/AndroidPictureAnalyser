@@ -1,5 +1,6 @@
 package com.telecom.lille.AndroidPictureAnalyser;
 
+
 import android.app.ListActivity;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,6 +17,8 @@ import java.net.URI;
 import java.util.ArrayList;
 
 import com.example.tpandroid1.R;
+
+
 
 public class ResultActivity extends ListActivity {
 

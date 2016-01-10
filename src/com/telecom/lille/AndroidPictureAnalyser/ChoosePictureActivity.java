@@ -1,6 +1,12 @@
 package com.telecom.lille.AndroidPictureAnalyser;
 
 
+import java.net.URI;
+import java.net.URISyntaxException;
+
+
+
+
 import com.example.tpandroid1.R;
 
 import android.app.Activity;
@@ -43,6 +49,14 @@ public class ChoosePictureActivity extends Activity implements OnClickListener {
 		imageAlreadyChoose = false;
 		//imageView.setImageURI((Uri)"@drawable/ic_launcher");
 	
+		//Connect to webserver and get json String
+		GetURL get = new GetURL();
+		try {
+			get.execute(new URI("http://www-rech.telecom-lille.fr/freeorb/index.json"));
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 
