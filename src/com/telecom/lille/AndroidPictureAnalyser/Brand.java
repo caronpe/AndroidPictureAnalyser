@@ -13,6 +13,7 @@ public class Brand {
 		this.name = name;
 		this.url = url;
 		this.classifier = classifier;
+		Log.i("BRANDS", classifier);
 		Log.i("BRANDS", name.concat(" correctly create"));
 	}
 }

@@ -50,14 +50,8 @@ public class ChoosePictureActivity extends Activity implements OnClickListener {
 		//imageView.setImageURI((Uri)"@drawable/ic_launcher");
 	
 		//Connect to webserver and get json String
-		GetURL get = new GetURL();
-		try {
-			get.execute(new URI("http://www-rech.telecom-lille.fr/freeorb/index.json"));
-		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+		DatabaseCreator get = new DatabaseCreator();
+		get.execute("http://www-rech.telecom-lille.fr/freeorb/");
 	}
 
 	@Override
