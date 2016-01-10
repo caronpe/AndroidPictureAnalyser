@@ -116,10 +116,9 @@ public class Analyser {
 	public Size compare(Uri compareImg, Context context) throws FileNotFoundException, IOException{
 		//compareImage = decodeSampledBitmapFromResource(compareImg, 70, 70);
 		compareImage = MediaStore.Images.Media.getBitmap(context.getContentResolver(), compareImg);
-		Log.i("ANALYSER", "Image à comparer chargée!!!!!!!!!!!!!!!!! " + compareImage);
+		Log.i("ANALYSER", "Image à comparer chargée!" + compareImage);
 		this.compareImageMat = new Mat();
 		Utils.bitmapToMat(compareImage, compareImageMat);
-		//Log.i("ANALYSER", "Image à comparer chargée!!!!!!!!!!!!!!!!!");
 		
 		MatOfKeyPoint keyPointMain = new MatOfKeyPoint();
 		MatOfKeyPoint keyPointComp = new MatOfKeyPoint();

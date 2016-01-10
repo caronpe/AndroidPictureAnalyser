@@ -69,7 +69,7 @@ public class GetURL extends AsyncTask <URI, Integer, String>{
 			root = new JSONObject (JSONfile);
 	
 		JSONArray jArray = root.getJSONArray("brands");
-		for (int i=0, l=jArray.length(); i<l ; l++){
+		for (int i=0; i<jArray.length() ; i++){
 			JSONObject jobj = jArray.getJSONObject(i);
 			Brand brand = new Brand(jobj.getString("brandname"), jobj.getString("url"), jobj.getString("classifier"));
 			//TODO recup nom d'image
