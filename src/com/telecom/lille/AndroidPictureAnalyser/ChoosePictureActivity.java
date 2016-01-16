@@ -26,6 +26,7 @@ import android.widget.ImageView;
 public class ChoosePictureActivity extends Activity implements OnClickListener {
 
 	final static String tag = ChoosePictureActivity.class.getName();
+	final public static String serveurPath = "http://www-rech.telecom-lille.fr/freeorb/";
 	final int IMAGE_CAPTURE = 1;
 	final int IMAGE_SELECT = 2;
 	Button captureBtn;
