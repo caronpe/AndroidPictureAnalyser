@@ -7,6 +7,9 @@ import java.net.URISyntaxException;
 
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.example.tpandroid1.R;
 
 import android.app.Activity;
@@ -35,6 +38,7 @@ public class ChoosePictureActivity extends Activity implements OnClickListener {
 	ImageView imageView;
 	boolean imageAlreadyChoose;
 	Uri uriChooseImage;
+	public static List<Brand> brands;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +53,7 @@ public class ChoosePictureActivity extends Activity implements OnClickListener {
 		imageView = (ImageView) findViewById(R.id.imageView2);
 		imageAlreadyChoose = false;
 		//imageView.setImageURI((Uri)"@drawable/ic_launcher");
+		brands = new ArrayList<Brand>();
 	
 		//Connect to webserver and get json String
 		DatabaseCreator get = new DatabaseCreator();

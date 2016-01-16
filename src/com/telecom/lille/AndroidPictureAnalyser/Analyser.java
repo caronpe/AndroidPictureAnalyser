@@ -80,7 +80,7 @@ public class Analyser {
 
 		BitmapFactory.Options options = new BitmapFactory.Options();
 		options.inJustDecodeBounds = true;
-
+		
 		AssetFileDescriptor fileDescriptor = null;
 		try {
 			fileDescriptor = resultActivity.getContentResolver().openAssetFileDescriptor(img, "r");

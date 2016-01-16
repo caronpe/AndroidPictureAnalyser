@@ -28,8 +28,7 @@ public class DatabaseCreator extends AsyncTask <String, Integer, String>{
 		String classifierPath = "classifiers/";
 		//download JSON
 		String JSONfile = URLdownloader.URLdownload(sitePath[0].concat("index.json"));		
-		//parsing du context + parsing Json
-		List<Brand> brands = new LinkedList<Brand>();
+		
 		//StringJson est récupéré dans le httpget
 		JSONObject root;
 		try {
@@ -48,19 +47,22 @@ public class DatabaseCreator extends AsyncTask <String, Integer, String>{
 				//création de l'objet Brand
 				Brand brand = new Brand(jobj.getString("brandname"), jobj.getString("url"), URLdownloader.URLdownload(sitePath[0].concat(classifierPath.concat(jobj.getString("classifier")))), listImagePath);
 				//TODO recup nom d'image
-				brands.add(brand);
+				ChoosePictureActivity.brands.add(brand);
 			}
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		
+		ChoosePictureActivity.brands.get(0).setDictionnary(URLdownloader.URLdownload(sitePath[0].concat("vocabulary.yml")));
+		
 		//publishProgress(counter + 1);
 		return "";
 	}
 
 
 	protected void onPostExecute(String JSONfile){
+	
 	}
 
 	void onUpdateProgress (Integer...proress){

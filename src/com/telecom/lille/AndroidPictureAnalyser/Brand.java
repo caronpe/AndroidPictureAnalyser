@@ -10,6 +10,15 @@ public class Brand {
 	private String url;
 	private String classifier;
 	private String imageURL[];
+	public static String getDictionnary() {
+		return Dictionnary;
+	}
+
+	public static void setDictionnary(String dictionnary) {
+		Dictionnary = dictionnary;
+	}
+
+	private static String Dictionnary;
 	
 	public Brand(String name, String url, String classifier, ArrayList<String> listImagePath) {
 		super();
@@ -24,6 +33,14 @@ public class Brand {
 		}
 		Log.i("BRANDS", classifier);
 		Log.i("BRANDS", name.concat(" correctly create"));
+	}
+
+	public String[] getImageURL() {
+		return imageURL;
+	}
+
+	public void setImageURL(String[] imageURL) {
+		this.imageURL = imageURL;
 	}
 
 	public String getName() {
