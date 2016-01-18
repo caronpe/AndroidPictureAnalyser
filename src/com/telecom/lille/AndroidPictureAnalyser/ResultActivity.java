@@ -1,6 +1,7 @@
 package com.telecom.lille.AndroidPictureAnalyser;
 
 import android.app.ListActivity;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -83,10 +84,21 @@ public class ResultActivity extends ListActivity {
 		return true;
 	}
 	
+	
 	 @Override
 	 protected void onListItemClick(ListView l, View v, int position, long id) {
 	        Toast.makeText(this, "Position : " + position, Toast.LENGTH_LONG).show();
+	        Picture o = (Picture) l.getItemAtPosition(position);
+	        String website = o.getWebsite();
+	        startInternetActivity(website);
 	 }
+	 
+	private void startInternetActivity(String website) {
+		// TODO Auto-generated method stub
+		Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://"+website));
+		startActivity(intent);
+	}
+	 
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
