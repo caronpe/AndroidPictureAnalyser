@@ -34,7 +34,7 @@ public class Analyser {
 	
 	static {
 	    if (!OpenCVLoader.initDebug()) {
-	        // Handle initialization error
+	        // Handle initialization erroruhi
 	    }
 	}
 	
