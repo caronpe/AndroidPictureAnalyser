@@ -3,6 +3,7 @@ package com.telecom.lille.AndroidPictureAnalyser;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.opencv.android.OpenCVLoader;
@@ -46,7 +47,7 @@ public class Analyser {
 		mainImage = decodeSampledBitmapFromResource(imageUri, 70, 70);		
 		this.mainImageMat = new Mat(); 
 		Utils.bitmapToMat(mainImage, mainImageMat);	
-		Log.i("ANALYSER", "Image Principal chargée!!!!!!!!!!!!!!!!!");
+		Log.i("ANALYSER", "Image Principal chargÃ©e!!!!!!!!!!!!!!!!!");
 	}
 
 	public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
@@ -68,6 +69,38 @@ public class Analyser {
 	    }
 	    return inSampleSize;
 	}
+	/*private void loadVocabulary(String vocabularyYml){
+		if(vocabularyYml != null){
+			try {			
+				int startArray = vocabularyYml.indexOf("data:") + 7;				
+				String tab = vocabularyYml.substring(startArray, (vocabularyYml.length()));
+				List<Float> floatVocab = new LinkedList<Float>();
+				floatVocab.addAll( tabStringtoFloat(tab) );
+				//vocabulary = new Mat(50, 32, CvType.CV_32F);
+				vocabulary = org.opencv.utils.Converters.vector_float_to_Mat(floatVocab);
+			} catch (Exception e) {
+				 vocabulary = null;
+				 Log.e(tag, "Le parsing du fichier JSON a ï¿½chouï¿½");
+		}
+		}
+	}
+	
+	public static List<Float> tabStringtoFloat(String tab) {
+		List<Float> tabReturn = null;
+		if (tab != null) {
+			String[] tabString = tab.split(",");
+			tabReturn = new LinkedList<Float>();
+			for (String s : tabString) {
+				try {
+					tabReturn.add(Float.valueOf(s.trim()));
+				} catch (NumberFormatException e) {
+					Log.e(tag, "Le parsing du fichier YML a ï¿½chouï¿½");
+					return null;
+				}
+			}
+		}
+		return tabReturn;
+	}*/
 	
 	/**
 	 * une conversion de l'image en bitmap
@@ -116,7 +149,7 @@ public class Analyser {
 	public Size compare(Uri compareImg, Context context) throws FileNotFoundException, IOException{
 		//compareImage = decodeSampledBitmapFromResource(compareImg, 70, 70);
 		compareImage = MediaStore.Images.Media.getBitmap(context.getContentResolver(), compareImg);
-		Log.i("ANALYSER", "Image à comparer chargée!" + compareImage);
+		Log.i("ANALYSER", "Image Ã  comparer chargÃ©e!" + compareImage);
 		this.compareImageMat = new Mat();
 		Utils.bitmapToMat(compareImage, compareImageMat);
 		
