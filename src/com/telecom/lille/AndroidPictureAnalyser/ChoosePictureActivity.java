@@ -1,6 +1,7 @@
 package com.telecom.lille.AndroidPictureAnalyser;
 
 
+import java.io.File;
 import java.io.FileNotFoundException;
 
 import com.example.tpandroid1.R;
@@ -8,8 +9,11 @@ import com.example.tpandroid1.R;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -119,7 +123,11 @@ public class ChoosePictureActivity extends Activity implements OnClickListener {
 			
 			uriChooseImage = data.getData();
 			Log.i(tag, uriChooseImage.toString());
-			imageView.setImageBitmap(decodeSampledBitmapFromResource(uriChooseImage, 1200, 1200));
+
+			float rotation = getCameraPhotoOrientation(uriChooseImage);
+			Bitmap raotatedImage = RotateBitmap(decodeSampledBitmapFromResource(uriChooseImage, 1200, 1200), rotation);
+		
+			imageView.setImageBitmap(raotatedImage);
 		}
 		
 	}
@@ -165,4 +173,49 @@ public class ChoosePictureActivity extends Activity implements OnClickListener {
 		return BitmapFactory.decodeFileDescriptor(fileDescriptor.getFileDescriptor(), null, options2);
 
 	}
+	public String getPath(Uri uri){
+        String[] projection = { MediaStore.Images.Media.DATA };
+        Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
+        if (cursor == null) return null;
+        int column_index =             cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+        String s=cursor.getString(column_index);
+        cursor.close();
+        return s;
+    }
+
+    public int getCameraPhotoOrientation(Uri imagePath){
+        int rotate = 0;
+        try {
+            File imageFile = new File(getPath(imagePath));
+            Log.i("TAG", String.valueOf(imageFile.exists()));
+
+            ExifInterface exif = new ExifInterface(imageFile.getAbsolutePath());
+            int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+
+            switch (orientation) {
+            case ExifInterface.ORIENTATION_ROTATE_270:
+                rotate = 270;
+                break;
+            case ExifInterface.ORIENTATION_ROTATE_180:
+                rotate = 180;
+                break;
+            case ExifInterface.ORIENTATION_ROTATE_90:
+                rotate = 90;
+                break;
+            }
+
+            Log.i("RotateImage", "Exif orientation: " + orientation);
+            Log.i("RotateImage", "Rotate value: " + rotate);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rotate;
+    }
+
+    public static Bitmap RotateBitmap(Bitmap source, float angle){
+          Matrix matrix = new Matrix();
+          matrix.postRotate(angle);
+          return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
+    }
 }
