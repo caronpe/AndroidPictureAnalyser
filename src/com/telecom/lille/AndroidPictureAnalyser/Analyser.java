@@ -43,32 +43,20 @@ public class Analyser {
 		this.resultActivity = resultActivity;
 		
 		//load the choosing image
-		mainImage = decodeSampledBitmapFromResource(imageUri, 70, 70);		
+		try {
+			mainImage = MediaStore.Images.Media.getBitmap(resultActivity.getContentResolver(), imageUri);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		this.mainImageMat = new Mat(); 
 		Utils.bitmapToMat(mainImage, mainImageMat);	
 		Log.i("ANALYSER", "Image Principal chargée!!!!!!!!!!!!!!!!!");
 	}
 
-	public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
-	    // Raw height and width of image
-	    final int height = options.outHeight;
-	    final int width = options.outWidth;
-	    int inSampleSize = 1;
-	
-	    if (height > reqHeight || width > reqWidth) {
-	
-	        final int halfHeight = height / 2;
-	        final int halfWidth = width / 2;
-	
-	        // Calculate the largest inSampleSize value that is a power of 2 and keeps both
-	        // height and width larger than the requested height and width.
-	        while ((halfHeight / inSampleSize) > reqHeight && (halfWidth / inSampleSize) > reqWidth) {
-	            inSampleSize *= 2;
-	        }
-	    }
-	    return inSampleSize;
-	}
-	
 	/**
 	 * une conversion de l'image en bitmap
 	 * @param img uri de l'image
@@ -76,28 +64,6 @@ public class Analyser {
 	 * @param reqHeight
 	 * @return a BitMap description of the image
 	 */
-	public Bitmap decodeSampledBitmapFromResource(Uri img, int reqWidth, int reqHeight) {
-
-		BitmapFactory.Options options = new BitmapFactory.Options();
-		options.inJustDecodeBounds = true;
-
-		AssetFileDescriptor fileDescriptor = null;
-		try {
-			fileDescriptor = resultActivity.getContentResolver().openAssetFileDescriptor(img, "r");
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		BitmapFactory.decodeFileDescriptor(fileDescriptor.getFileDescriptor(), null, options);
-
-        // Decode with inSampleSize
-        BitmapFactory.Options options2 = new BitmapFactory.Options();
-        options2.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight );
-
-		return BitmapFactory.decodeFileDescriptor(fileDescriptor.getFileDescriptor(), null, options2);
-
-	}
 	
 	public void compare(Picture[] brand, Context context){
 		for(int i = 0 ; i < brand.length ; i++){
@@ -114,7 +80,6 @@ public class Analyser {
 	}
 	
 	public Size compare(Uri compareImg, Context context) throws FileNotFoundException, IOException{
-		//compareImage = decodeSampledBitmapFromResource(compareImg, 70, 70);
 		compareImage = MediaStore.Images.Media.getBitmap(context.getContentResolver(), compareImg);
 		Log.i("ANALYSER", "Image à comparer chargée!!!!!!!!!!!!!!!!! " + compareImage);
 		this.compareImageMat = new Mat();
