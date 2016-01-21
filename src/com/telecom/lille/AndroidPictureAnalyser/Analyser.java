@@ -17,9 +17,7 @@ import org.opencv.features2d.DescriptorMatcher;
 import org.opencv.features2d.FeatureDetector;
 
 import android.content.Context;
-import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -57,14 +55,6 @@ public class Analyser {
 		Log.i("ANALYSER", "Image Principal chargée!!!!!!!!!!!!!!!!!");
 	}
 
-	/**
-	 * une conversion de l'image en bitmap
-	 * @param img uri de l'image
-	 * @param reqWidth
-	 * @param reqHeight
-	 * @return a BitMap description of the image
-	 */
-	
 	public void compare(Picture[] brand, Context context){
 		for(int i = 0 ; i < brand.length ; i++){
 			try {
