@@ -6,9 +6,11 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.bytedeco.javacpp.opencv_core;
+import org.bytedeco.javacpp.opencv_core.CvMat;
+import org.bytedeco.javacpp.opencv_core.Mat;
 import org.opencv.android.OpenCVLoader;
 import org.opencv.android.Utils;
-import org.opencv.core.Mat;
 import org.opencv.core.MatOfDMatch;
 import org.opencv.core.MatOfKeyPoint;
 import org.opencv.core.Size;
@@ -22,8 +24,42 @@ import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.support.v4.content.CursorLoader;
 import android.util.Log;
+
+
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Context;
+import android.content.res.AssetFileDescriptor;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
+import org.bytedeco.javacpp.Loader;
+import org.bytedeco.javacpp.Pointer;
+import org.bytedeco.javacpp.opencv_core;
+import org.bytedeco.javacpp.opencv_core.*;
+import org.bytedeco.javacpp.opencv_ml.CvSVM;
+import org.bytedeco.javacpp.opencv_nonfree.SIFT;
+import org.bytedeco.javacpp.opencv_features2d.*;
+
+import static org.bytedeco.javacpp.opencv_core.CV_32F;
+import static org.bytedeco.javacpp.opencv_highgui.imread;
 
 public class Analyser {
 
@@ -38,15 +74,24 @@ public class Analyser {
 	        // Handle initialization error
 	    }
 	}
-	
+	private String getRealPathFromURI(Uri contentUri, Context context) {
+	    String[] proj = { MediaStore.Images.Media.DATA };
+	    CursorLoader loader = new CursorLoader(context, contentUri, proj, null, null, null);
+	    Cursor cursor = loader.loadInBackground();
+	    int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+	    cursor.moveToFirst();
+	    String result = cursor.getString(column_index);
+	    cursor.close();
+	    return result;
+	}
 	public Analyser(ListAdaptater listAdaptater, ResultActivity resultActivity, Uri imageUri){
 		this.listAdaptater = listAdaptater;
 		this.resultActivity = resultActivity;
 		
 		//load the choosing image
-		mainImage = decodeSampledBitmapFromResource(imageUri, 70, 70);		
-		this.mainImageMat = new Mat(); 
-		Utils.bitmapToMat(mainImage, mainImageMat);	
+		mainImage = decodeSampledBitmapFromResource(imageUri, 70, 70);
+		this.mainImageMat = imread(getRealPathFromURI(imageUri,resultActivity)); 
+	//	Utils.bitmapToMat(mainImage, mainImageMat);	
 		Log.i("ANALYSER", "Image Principal chargée!!!!!!!!!!!!!!!!!");
 	}
 
@@ -147,8 +192,9 @@ public class Analyser {
 	}
 	
 	public Size compare(Uri compareImg, Context context) throws FileNotFoundException, IOException{
+	
 		//compareImage = decodeSampledBitmapFromResource(compareImg, 70, 70);
-		compareImage = MediaStore.Images.Media.getBitmap(context.getContentResolver(), compareImg);
+		/*compareImage = MediaStore.Images.Media.getBitmap(context.getContentResolver(), compareImg);
 		Log.i("ANALYSER", "Image à comparer chargée!" + compareImage);
 		this.compareImageMat = new Mat();
 		Utils.bitmapToMat(compareImage, compareImageMat);
@@ -250,6 +296,8 @@ public class Analyser {
 			return new Size(0 , 0);
 		}
 		return matchesFiltered.size();
+		*/
+		return null;
 	}
 	
 }
