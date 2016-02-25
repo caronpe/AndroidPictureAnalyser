@@ -90,7 +90,8 @@ public class Analyser {
 		
 		//load the choosing image
 		mainImage = decodeSampledBitmapFromResource(imageUri, 70, 70);
-		this.mainImageMat = imread(getRealPathFromURI(imageUri,resultActivity)); 
+		mainImageMat = new Mat();
+		//this.mainImageMat = imread(getRealPathFromURI(imageUri,resultActivity)); 
 	//	Utils.bitmapToMat(mainImage, mainImageMat);	
 		Log.i("ANALYSER", "Image Principal chargée!!!!!!!!!!!!!!!!!");
 	}
