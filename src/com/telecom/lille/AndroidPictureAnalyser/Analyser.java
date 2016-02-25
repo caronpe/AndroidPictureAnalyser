@@ -50,8 +50,9 @@ public class Analyser {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		this.mainImageMat = new Mat(); 
+		this.mainImageMat = new Mat();
 		Utils.bitmapToMat(mainImage, mainImageMat);	
+		mainImage.recycle();
 		Log.i("ANALYSER", "Image Principal chargée!!!!!!!!!!!!!!!!!");
 	}
 

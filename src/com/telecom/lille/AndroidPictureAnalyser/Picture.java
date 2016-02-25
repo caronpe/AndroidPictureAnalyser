@@ -89,7 +89,7 @@ public class Picture {
 		if(matchingSize != null){
 			this.matchingSize = matchingSize.toString();
 		}else{
-			this.matchingSize = "no match";
+			this.matchingSize = "Logo detected";
 		}
 	}
 
