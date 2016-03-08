@@ -84,10 +84,10 @@ public class Picture {
 				+ website + "]";
 	}
 
-	public void setMatchSize(Size matchingSize) {
+	public void setMatchAverage(int matchingSize) {
 		// TODO Auto-generated method stub
-		if(matchingSize != null){
-			this.matchingSize = matchingSize.toString();
+		if(matchingSize < 76){
+			this.matchingSize = matchingSize +"";
 		}else{
 			this.matchingSize = "no match";
 		}

@@ -102,7 +102,8 @@ public class Analyser {
 	public void compare(Picture[] brand, Context context){
 		for(int i = 0 ; i < brand.length ; i++){
 			try {
-				brand[i].setMatchSize(compare(brand[i].getUri(), context));
+				Log.i(tag, brand[i].getBrand());
+				brand[i].setMatchAverage(compare(brand[i].getUri(), context));
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -113,7 +114,7 @@ public class Analyser {
 		}
 	}
 	
-	public Size compare(Uri compareImg, Context context) throws FileNotFoundException, IOException{
+	public int compare(Uri compareImg, Context context) throws FileNotFoundException, IOException{
 		//compareImage = decodeSampledBitmapFromResource(compareImg, 70, 70);
 		compareImage = MediaStore.Images.Media.getBitmap(context.getContentResolver(), compareImg);
 		Log.i("ANALYSER", "Image à comparer chargée!!!!!!!!!!!!!!!!! " + compareImage);
@@ -168,7 +169,6 @@ public class Analyser {
 			if (dist > max_dist) {
 				max_dist = dist;
 			}
-
 		}
 
 		Log.i(tag, "max_dist : " + max_dist);
@@ -176,35 +176,38 @@ public class Analyser {
 
 		if (min_dist > 50) {
 			Log.i(tag, "No match found, min_dist under minimum value");
-			return null;
+			return  76;
 		}
 
 		//choose an appropriate threshold
-		double threshold = 3 * min_dist;
-		double threshold2 = 2 * min_dist;
-
-		if (threshold > 75) {
-			threshold = 75;
-		} else if (threshold2 >= max_dist) {
-			threshold = min_dist * 1.1;
-		} else if (threshold >= max_dist) {
-			threshold = threshold2 * 1.4;
-		}
-
+		double threshold = 65;
+		
 		Log.i(tag, "Threshold : " + threshold);
 
+		int averageDist = 0;
 		//get match with dist under threshold
 		for (int i = 0; i < matchesList.size(); i++) {
 			Double dist = (double) matchesList.get(i).distance;
-
 			if (dist < threshold) {
 				bestMatches.add(matches.toList().get(i));
 				Log.i(tag, String.format(i + " best match added : %s", dist));
+				averageDist += dist;
 			}
 		}
-
+		
+		if(bestMatches.size() > 0){
+			averageDist = (averageDist/bestMatches.size()) - bestMatches.size();
+			Log.i(tag, "match found, average=" + averageDist);
+		}else{
+			return 76;
+		}
+		
+		
+		/*
 		MatOfDMatch matchesFiltered = new MatOfDMatch();
 		matchesFiltered.fromList(bestMatches);
+		
+	
 
 		Log.i("ANALYSER", "matchesFiltered.size() : " + matchesFiltered.size());
 
@@ -216,8 +219,8 @@ public class Analyser {
 		
 		if(matchesFiltered.size() == null){
 			return new Size(0 , 0);
-		}
-		return matchesFiltered.size();
+		}*/
+		return averageDist;
 	}
 	
 }
