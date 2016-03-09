@@ -17,9 +17,7 @@ import org.opencv.features2d.DescriptorMatcher;
 import org.opencv.features2d.FeatureDetector;
 
 import android.content.Context;
-import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -43,62 +41,21 @@ public class Analyser {
 		this.resultActivity = resultActivity;
 		
 		//load the choosing image
-		mainImage = decodeSampledBitmapFromResource(imageUri, 70, 70);		
-		this.mainImageMat = new Mat(); 
-		Utils.bitmapToMat(mainImage, mainImageMat);	
-		Log.i("ANALYSER", "Image Principal chargée!!!!!!!!!!!!!!!!!");
-	}
-
-	public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
-	    // Raw height and width of image
-	    final int height = options.outHeight;
-	    final int width = options.outWidth;
-	    int inSampleSize = 1;
-	
-	    if (height > reqHeight || width > reqWidth) {
-	
-	        final int halfHeight = height / 2;
-	        final int halfWidth = width / 2;
-	
-	        // Calculate the largest inSampleSize value that is a power of 2 and keeps both
-	        // height and width larger than the requested height and width.
-	        while ((halfHeight / inSampleSize) > reqHeight && (halfWidth / inSampleSize) > reqWidth) {
-	            inSampleSize *= 2;
-	        }
-	    }
-	    return inSampleSize;
-	}
-	
-	/**
-	 * une conversion de l'image en bitmap
-	 * @param img uri de l'image
-	 * @param reqWidth
-	 * @param reqHeight
-	 * @return a BitMap description of the image
-	 */
-	public Bitmap decodeSampledBitmapFromResource(Uri img, int reqWidth, int reqHeight) {
-
-		BitmapFactory.Options options = new BitmapFactory.Options();
-		options.inJustDecodeBounds = true;
-
-		AssetFileDescriptor fileDescriptor = null;
 		try {
-			fileDescriptor = resultActivity.getContentResolver().openAssetFileDescriptor(img, "r");
+			mainImage = MediaStore.Images.Media.getBitmap(resultActivity.getContentResolver(), imageUri);
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-
-		BitmapFactory.decodeFileDescriptor(fileDescriptor.getFileDescriptor(), null, options);
-
-        // Decode with inSampleSize
-        BitmapFactory.Options options2 = new BitmapFactory.Options();
-        options2.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight );
-
-		return BitmapFactory.decodeFileDescriptor(fileDescriptor.getFileDescriptor(), null, options2);
-
+		this.mainImageMat = new Mat();
+		Utils.bitmapToMat(mainImage, mainImageMat);	
+		mainImage.recycle();
+		Log.i("ANALYSER", "Image Principal chargée!!!!!!!!!!!!!!!!!");
 	}
-	
+
 	public void compare(Picture[] brand, Context context){
 		for(int i = 0 ; i < brand.length ; i++){
 			try {
@@ -115,7 +72,7 @@ public class Analyser {
 	}
 	
 	public int compare(Uri compareImg, Context context) throws FileNotFoundException, IOException{
-		//compareImage = decodeSampledBitmapFromResource(compareImg, 70, 70);
+	
 		compareImage = MediaStore.Images.Media.getBitmap(context.getContentResolver(), compareImg);
 		Log.i("ANALYSER", "Image à comparer chargée!!!!!!!!!!!!!!!!! " + compareImage);
 		this.compareImageMat = new Mat();
@@ -202,24 +159,6 @@ public class Analyser {
 			return 76;
 		}
 		
-		
-		/*
-		MatOfDMatch matchesFiltered = new MatOfDMatch();
-		matchesFiltered.fromList(bestMatches);
-		
-	
-
-		Log.i("ANALYSER", "matchesFiltered.size() : " + matchesFiltered.size());
-
-		if (matchesFiltered.rows() >= 1) {
-			Log.i(tag, "match found");
-		} else {
-			Log.i(tag, "match not found");
-		}
-		
-		if(matchesFiltered.size() == null){
-			return new Size(0 , 0);
-		}*/
 		return averageDist;
 	}
 	
